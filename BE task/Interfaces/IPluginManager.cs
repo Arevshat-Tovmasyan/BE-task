@@ -3,8 +3,9 @@
     public interface IPluginManager
     {
         void LoadPlugin(IImageOperation plugin);
+        void UploadPlugin(string pluginName);
         void UnloadPlugin(string pluginName);
         IImageOperation GetPlugin(string pluginName);
-        IReadOnlyCollection<string> GetAvailablePlugins();
+        HashSet<string> GetAvailablePlugins();
     }
 }
