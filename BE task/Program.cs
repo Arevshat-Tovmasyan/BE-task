@@ -1,4 +1,5 @@
 using BE_task.Interfaces;
+using BE_task.Middlewares;
 using BE_task.Services;
 
 namespace BE_task
@@ -16,9 +17,17 @@ namespace BE_task
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            builder.Services.AddSwaggerGen(s =>
+            {
+                var filePath = Path.Combine(AppContext.BaseDirectory, "BE task.xml");
+
+                s.IncludeXmlComments(filePath, true);
+                s.CustomSchemaIds((type) => type.Name.Replace("DTO", string.Empty));
+            });
 
             var app = builder.Build();
+
+            app.UseExceptionMiddleware();
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
